@@ -1,0 +1,15 @@
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.csproj.AssemblyReference.cache
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.GeneratedMSBuildEditorConfig.editorconfig
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.AssemblyInfoInputs.cache
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.AssemblyInfo.cs
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.csproj.CoreCompileInputs.cache
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/Lab1
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/Lab1.deps.json
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/Lab1.runtimeconfig.json
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/Lab1.dll
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/ref/Lab1.dll
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/bin/Debug/net6.0/Lab1.pdb
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.dll
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/ref/Lab1.dll
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.pdb
+/home/a/CODESPACE/LABS/CSHARPLabs/Lab1/obj/Debug/net6.0/Lab1.genruntimeconfig.cache
