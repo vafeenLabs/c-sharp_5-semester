@@ -310,13 +310,27 @@ class Program
             Console.WriteLine("Введите новый комментарий для заказа:");
             orderToUpdate.Comment = Console.ReadLine();
 
+            // Выводим текущего мастера
+            var currentMaster = await masterRepo.GetAsync(orderToUpdate.IdMaster);
+            if (currentMaster != null)
+            {
+                var currentPerson = await personRepo.GetAsync(currentMaster.PersonId);
+                Console.WriteLine($"Текущий мастер: {currentMaster.IdMaster}. {currentPerson.Name} ({currentMaster.Specialization})");
+            }
+            else
+            {
+                Console.WriteLine("Текущий мастер не найден.");
+            }
+
             // Вывод списка мастеров
             var masters = await masterRepo.GetAllAsync();
-            Console.WriteLine("Выберите мастера (ID):");
+            Console.WriteLine("Выберите нового мастера (ID):");
             foreach (var master in masters)
             {
-                Console.WriteLine($"{master.IdMaster}. {master.Person.Name} ({master.Specialization})");
+                var person = await personRepo.GetAsync(master.PersonId);
+                Console.WriteLine($"{master.IdMaster}. {person.Name} ({master.Specialization})");
             }
+
             Console.WriteLine("Введите новый ID мастера:");
             orderToUpdate.IdMaster = Convert.ToInt32(Console.ReadLine());
 
@@ -326,6 +340,15 @@ class Program
             {
                 Console.WriteLine($" - {osp.SparePart.Name} (ID: {osp.SparePart.IdSparePart})");
             }
+
+            // Вывод списка всех доступных запасных частей
+            var spareParts = await sparePartRepo.GetAllAsync();
+            Console.WriteLine("Доступные запасные части:");
+            foreach (var sparePart in spareParts)
+            {
+                Console.WriteLine($"ID: {sparePart.IdSparePart}, Название: {sparePart.Name}");
+            }
+
             Console.WriteLine("Введите новые ID запасных частей через пробел:");
             var newSpareParts = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
 
@@ -335,6 +358,15 @@ class Program
             {
                 Console.WriteLine($" - {ow.Work.WorkDescription} (ID: {ow.Work.IdWork})");
             }
+
+            // Вывод списка всех доступных работ
+            var works = await workRepo.GetAllAsync();
+            Console.WriteLine("Доступные работы:");
+            foreach (var work in works)
+            {
+                Console.WriteLine($"ID: {work.IdWork}, Описание: {work.WorkDescription}");
+            }
+
             Console.WriteLine("Введите новые ID работ через пробел:");
             var newWorks = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
 
@@ -344,6 +376,15 @@ class Program
             {
                 Console.WriteLine($" - {om.Malfunction.Description} (ID: {om.Malfunction.IdMalfunction})");
             }
+
+            // Вывод списка всех доступных неисправностей
+            var malfunctions = await malfunctionRepo.GetAllAsync();
+            Console.WriteLine("Доступные неисправности:");
+            foreach (var malfunction in malfunctions)
+            {
+                Console.WriteLine($"ID: {malfunction.IdMalfunction}, Описание: {malfunction.Description}");
+            }
+
             Console.WriteLine("Введите новые ID неисправностей через пробел:");
             var newMalfunctions = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
 
