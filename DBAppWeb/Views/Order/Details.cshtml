@@ -1,0 +1,76 @@
+@model OrderViewModel
+
+<h2>Order Details</h2>
+
+<div class="form-group mb-3">
+    <label for="Masters" class="form-label">Selected Masters Specialization:</label>
+    <p>
+        @{
+            var masters = ViewBag.Masters as List<Master>;
+            var selectedMaster = masters?.FirstOrDefault(m => m.IdMaster == Model.IdMaster+1)?.Specialization ?? "Not selected";
+        }
+        @selectedMaster
+    </p>
+</div>
+
+<div class="form-group mb-3">
+    <label for="SpareParts" class="form-label">Selected Spare Parts:</label>
+    <ul>
+        @{
+            var spareParts = ViewBag.SpareParts as List<SparePart>;
+            if (spareParts != null && Model.SelectedSpareParts != null && Model.SelectedSpareParts.Any())
+            {
+                foreach (var sparePart in spareParts.Where(sp => Model.SelectedSpareParts.Contains(sp.IdSparePart)))
+                {
+                    <li>@{@sparePart.Name}</li>
+                }
+            }
+            else
+            {
+                <li>No spare parts selected</li>
+            }
+        }
+    </ul>
+</div>
+
+<div class="form-group mb-3">
+    <label for="Works" class="form-label">Selected Works:</label>
+    <ul>
+        @{
+            var works = ViewBag.Works as List<Work>;
+            if (works != null && Model.SelectedWorks != null && Model.SelectedWorks.Any())
+            {
+                foreach (var work in works.Where(w => Model.SelectedWorks.Contains(w.IdWork)))
+                {
+                    <li>@work.WorkDescription</li>
+                }
+            }
+            else
+            {
+                <li>No works selected</li>
+            }
+        }
+    </ul>
+</div>
+
+<div class="form-group mb-3">
+    <label for="Malfunctions" class="form-label">Selected Malfunctions:</label>
+    <ul>
+        @{
+            var malfunctions = ViewBag.Malfunctions as List<Malfunction>;
+            if (malfunctions != null && Model.SelectedMalfunctions != null && Model.SelectedMalfunctions.Any())
+            {
+                foreach (var malfunction in malfunctions.Where(m => Model.SelectedMalfunctions.Contains(m.IdMalfunction)))
+                {
+                    <li>@malfunction.Description</li>
+                }
+            }
+            else
+            {
+                <li>No malfunctions selected</li>
+            }
+        }
+    </ul>
+</div>
+
+<a class="btn btn-secondary" href="@Url.Action("Index", "Order")">Back to Orders</a>
