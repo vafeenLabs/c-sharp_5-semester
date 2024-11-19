@@ -183,28 +183,13 @@ public class OrderController : Controller
         {
             var orderRepo = new OrderRepository();
 
-            var order = new Order
-            {
-                IdOrder = model.IdOrder,
-                IdMaster = model.IdMaster,
-                // Заполнение других свойств
-            };
-
+            var order = await orderRepo.GetByIdAsync(id);
+        
             await orderRepo.UpdateAsync(order);
             await orderRepo.UpdateOrderDetails(order.IdOrder, model.SelectedSpareParts, model.SelectedWorks, model.SelectedMalfunctions);
 
             return RedirectToAction("Index");
         }
-
-        var sparePartRepo = new SparePartRepository();
-        var workRepo = new WorkRepository();
-        var malfunctionRepo = new MalfunctionRepository();
-        var masterRepo = new MasterRepository();
-
-        ViewBag.SpareParts = await sparePartRepo.GetAllAsync();
-        ViewBag.Works = await workRepo.GetAllAsync();
-        ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
-        ViewBag.Masters = await masterRepo.GetAllAsync();
 
         return View(model);
     }
@@ -240,7 +225,6 @@ public class OrderController : Controller
             await orderRepo.DeleteOrderDetails(order.IdOrder);
             await orderRepo.DeleteAsync(order);
             _logger.LogInformation($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Order with ID {id} deleted successfully.");
-            return RedirectToAction("Index"); // Переадресация на страницу списка заказов после удаления
         }
 
         _logger.LogWarning($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Order with ID {id} not found for deletion.");

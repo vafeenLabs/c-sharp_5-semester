@@ -5,28 +5,56 @@
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="IdOrder" />
 
-    <div class="form-group mb-3">
-        <label for="Masters" class="form-label">Select Master</label>
-        <select asp-for="IdMaster" asp-items="@(new SelectList(ViewBag.Masters, "IdMaster", "Name", Model.IdMaster))" class="form-select">
-            <option value="">-- Select Master --</option>
-        </select>
-    </div>
 
     <div class="form-group mb-3">
-        <label for="SpareParts" class="form-label">Select Spare Parts</label>
-        <select asp-for="SelectedSpareParts" asp-items="@(new MultiSelectList(ViewBag.SpareParts, "IdSparePart", "Name", Model.SelectedSpareParts))" multiple class="form-select"></select>
+        <label class="form-label">Select Spare Parts</label>
+        <div>
+            @foreach (var sparePart in ViewBag.SpareParts)
+            {
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sparePart_@sparePart.IdSparePart"
+                        name="SelectedSpareParts" value="@sparePart.IdSparePart"
+                    @(Model.SelectedSpareParts.Contains(sparePart.IdSparePart) ? "checked" : "") />
+                    <label class="form-check-label" for="sparePart_@sparePart.IdSparePart">@sparePart.Name</label>
+                </div>
+            }
+        </div>
     </div>
+
 
     <div class="form-group mb-3">
-        <label for="Works" class="form-label">Select Works</label>
-        <select asp-for="SelectedWorks" asp-items="@(new MultiSelectList(ViewBag.Works, "IdWork", "WorkDescription", Model.SelectedWorks))" multiple class="form-select"></select>
+        <label class="form-label">Select Works</label>
+        <div>
+            @foreach (var work in ViewBag.Works)
+            {
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="work_@work.IdWork" name="SelectedWorks"
+                        value="@work.IdWork" @(Model.SelectedWorks.Contains(work.IdWork) ? "checked" : "") />
+                    <label class="form-check-label" for="work_@work.IdWork">@work.WorkDescription</label>
+                </div>
+            }
+        </div>
     </div>
+
 
     <div class="form-group mb-3">
-        <label for="Malfunctions" class="form-label">Select Malfunctions</label>
-        <select asp-for="SelectedMalfunctions" asp-items="@(new MultiSelectList(ViewBag.Malfunctions, "IdMalfunction", "Description", Model.SelectedMalfunctions))" multiple class="form-select"></select>
+        <label class="form-label">Select Malfunctions</label>
+        <div>
+            @foreach (var malfunction in ViewBag.Malfunctions)
+            {
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="malfunction_@malfunction.IdMalfunction"
+                        name="SelectedMalfunctions" value="@malfunction.IdMalfunction"
+                    @(Model.SelectedMalfunctions.Contains(malfunction.IdMalfunction) ? "checked" : "") />
+                    <label class="form-check-label"
+                        for="malfunction_@malfunction.IdMalfunction">@malfunction.Description</label>
+                </div>
+            }
+        </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a class="btn btn-secondary ms-2" href="@Url.Action("Index", "Order")">Cancel</a>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-secondary" href="@Url.Action("Index", "Order")">Cancel</a>
+    </div>
 </form>
