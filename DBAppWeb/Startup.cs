@@ -39,38 +39,16 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             // Главная страница (редирект на Order/Index)
-            endpoints.MapControllerRoute(
-                name: "home",
-                pattern: "/",
-                defaults: new { controller = "Order", action = "Index" }
-            );
+            endpoints.MapGet("/", async context =>
+            {
+                context.Response.Redirect("/Order/Index");
+            });
 
-            // Создание заказа
+            // Основные маршруты для контроллера Order
             endpoints.MapControllerRoute(
-                name: "createOrder",
-                pattern: "Order/Create",
-                defaults: new { controller = "Order", action = "Create" }
-            );
-
-            // Просмотр заказа
-            endpoints.MapControllerRoute(
-                name: "viewOrder",
-                pattern: "Order/Details/{id}",
-                defaults: new { controller = "Order", action = "Details" }
-            );
-
-            // Обновление заказа
-            endpoints.MapControllerRoute(
-                name: "editOrder",
-                pattern: "Order/Edit/{id}",
-                defaults: new { controller = "Order", action = "Edit" }
-            );
-
-            // Удаление заказа
-            endpoints.MapControllerRoute(
-                name: "deleteOrder",
-                pattern: "Order/Delete/{id}",
-                defaults: new { controller = "Order", action = "Delete" }
+                name: "default",
+                pattern: "Order/{action=Index}/{id?}",
+                defaults: new { controller = "Order" }
             );
         });
     }

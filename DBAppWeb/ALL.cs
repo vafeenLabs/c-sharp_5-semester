@@ -215,16 +215,18 @@ public class Work
 
 
 
+
+
 public class OrderViewModel
 {
+    public int IdOrder { get; set; }
     public int IdMaster { get; set; }
-    public List<int> SelectedSpareParts { get; set; } = new();
-    public List<int> SelectedWorks { get; set; } = new();
-    public List<int> SelectedMalfunctions { get; set; } = new();
-
+    public List<int> SelectedSpareParts { get; set; } = new List<int>();
+    public List<int> SelectedWorks { get; set; } = new List<int>();
+    public List<int> SelectedMalfunctions { get; set; } = new List<int>();
     public override string ToString()
     {
-        return $"{IdMaster}, " +
+        return $"{IdOrder}, {IdMaster}, " +
                $"[{string.Join(", ", SelectedSpareParts)}], " +
                $"[{string.Join(", ", SelectedWorks)}], " +
                $"[{string.Join(", ", SelectedMalfunctions)}]";

@@ -34,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/a/CODESPACE/LABS/C\#-Labs/DBAppWeb/Views/Order/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/a/CODESPACE/LABS/C\#-Labs/DBAppWeb/Views/Order/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkZXIvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

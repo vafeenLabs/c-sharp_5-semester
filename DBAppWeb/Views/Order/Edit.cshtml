@@ -1,32 +1,32 @@
-@model Order
+@model OrderViewModel
 
 <h2>Edit Order</h2>
 
 <form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IdOrder" />
+
+    <div class="form-group mb-3">
+        <label for="Masters" class="form-label">Select Master</label>
+        <select asp-for="IdMaster" asp-items="@(new SelectList(ViewBag.Masters, "IdMaster", "Name", Model.IdMaster))" class="form-select">
+            <option value="">-- Select Master --</option>
+        </select>
+    </div>
+
     <div class="form-group mb-3">
         <label for="SpareParts" class="form-label">Select Spare Parts</label>
-        <select asp-for="SelectedSpareParts" asp-items="@(new SelectList(ViewBag.SpareParts, "IdSparePart", "Name"))" multiple="multiple" class="form-select">
-        </select>
+        <select asp-for="SelectedSpareParts" asp-items="@(new MultiSelectList(ViewBag.SpareParts, "IdSparePart", "Name", Model.SelectedSpareParts))" multiple class="form-select"></select>
     </div>
 
     <div class="form-group mb-3">
         <label for="Works" class="form-label">Select Works</label>
-        <select asp-for="SelectedWorks" asp-items="@(new SelectList(ViewBag.Works, "IdWork", "WorkDescription"))" multiple="multiple" class="form-select">
-        </select>
+        <select asp-for="SelectedWorks" asp-items="@(new MultiSelectList(ViewBag.Works, "IdWork", "WorkDescription", Model.SelectedWorks))" multiple class="form-select"></select>
     </div>
 
     <div class="form-group mb-3">
         <label for="Malfunctions" class="form-label">Select Malfunctions</label>
-        <select asp-for="SelectedMalfunctions" asp-items="@(new SelectList(ViewBag.Malfunctions, "IdMalfunction", "Description"))" multiple="multiple" class="form-select">
-        </select>
+        <select asp-for="SelectedMalfunctions" asp-items="@(new MultiSelectList(ViewBag.Malfunctions, "IdMalfunction", "Description", Model.SelectedMalfunctions))" multiple class="form-select"></select>
     </div>
 
-    <div class="form-group mb-3">
-        <label for="Masters" class="form-label">Select Master</label>
-        <select asp-for="MasterId" asp-items="@(new SelectList(ViewBag.Masters, "IdMaster", "Name"))" class="form-select">
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a class="btn btn-secondary ms-2" href="@Url.Action("Index", "Order")" role="button">Cancel</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary ms-2" href="@Url.Action("Index", "Order")">Cancel</a>
 </form>

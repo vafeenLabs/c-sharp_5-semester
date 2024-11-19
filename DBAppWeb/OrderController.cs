@@ -23,8 +23,60 @@ public class OrderController : Controller
         ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
         ViewBag.Masters = await masterRepo.GetAllAsync();
 
-        return View();
+        return View(new OrderViewModel());
     }
+
+    // GET: Order/Details/5
+    public async Task<IActionResult> Details(int id)
+    {
+        var orderRepo = new OrderRepository();
+        var sparePartRepo = new SparePartRepository();
+        var workRepo = new WorkRepository();
+        var malfunctionRepo = new MalfunctionRepository();
+        var masterRepo = new MasterRepository();
+        var orderSparePartRepo = new OrderSparePartRepository();
+        var orderMalfunctionRepo = new OrderMalfunctionRepository();
+        var orderWorkRepo = new OrderWorkRepository();
+
+        var order = await orderRepo.GetByIdAsync(id);
+        if (order == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        var model = new OrderViewModel
+        {
+            IdOrder = order.IdOrder,
+            IdMaster = order.IdMaster,
+
+            // Получаем все данные, затем фильтруем по IdOrder
+            SelectedSpareParts = (await orderSparePartRepo.GetAllAsync())
+                .Where(osp => osp.IdOrder == order.IdOrder)
+                .Select(osp => osp.IdSparePart)
+                .ToList(),
+
+            SelectedWorks = (await orderWorkRepo.GetAllAsync())
+                .Where(ow => ow.IdOrder == order.IdOrder)
+                .Select(ow => ow.IdWork)
+                .ToList(),
+
+            SelectedMalfunctions = (await orderMalfunctionRepo.GetAllAsync())
+                .Where(om => om.IdOrder == order.IdOrder)
+                .Select(om => om.IdMalfunction)
+                .ToList(),
+
+            // Заполнение других свойств
+        };
+
+        ViewBag.SpareParts = await sparePartRepo.GetAllAsync();
+        ViewBag.Works = await workRepo.GetAllAsync();
+        ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
+        ViewBag.Masters = await masterRepo.GetAllAsync();
+
+        return View(model);
+    }
+
+
 
     // POST: Order/Create
     [HttpPost]
@@ -32,11 +84,10 @@ public class OrderController : Controller
     {
         if (ModelState.IsValid)
         {
-            _logger.LogInformation($"Received Model: IdMaster: {model.IdMaster}, SelectedSpareParts: {string.Join(", ", model.SelectedSpareParts ?? new List<int>())}, SelectedWorks: {string.Join(", ", model.SelectedWorks ?? new List<int>())}, SelectedMalfunctions: {string.Join(", ", model.SelectedMalfunctions ?? new List<int>())}");
+            _logger.LogInformation($"Received Model: IdMaster: {model.IdMaster}");
 
             var orderRepo = new OrderRepository();
 
-            // Создание основного заказа
             var order = new Order
             {
                 IdMaster = model.IdMaster
@@ -44,13 +95,11 @@ public class OrderController : Controller
             };
             await orderRepo.AddAsync(order);
 
-            // Добавление связанных данных (списков)
             await orderRepo.UpdateOrderDetails(order.IdOrder, model.SelectedSpareParts, model.SelectedWorks, model.SelectedMalfunctions);
 
-            return RedirectToAction("Index"); // Переадресация на список заказов
+            return RedirectToAction("Index");
         }
 
-        // Если модель некорректна, загрузите данные заново
         var sparePartRepo = new SparePartRepository();
         var workRepo = new WorkRepository();
         var malfunctionRepo = new MalfunctionRepository();
@@ -61,79 +110,103 @@ public class OrderController : Controller
         ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
         ViewBag.Masters = await masterRepo.GetAllAsync();
 
-        return View(model); // Вернуть модель обратно в представление
+        return View(model);
     }
-
-
 
     // GET: Order/Index
     public async Task<IActionResult> Index()
     {
-        _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Enter Index method.");
-
         var orderRepo = new OrderRepository();
         var orders = await orderRepo.GetAllAsync();
-
-        _logger.LogInformation($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Fetched {orders.Count()} orders.");
         return View(orders);
     }
+
 
     // GET: Order/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
-        _logger.LogInformation($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Enter Edit method for Order ID {id}.");
-
         var orderRepo = new OrderRepository();
         var sparePartRepo = new SparePartRepository();
         var workRepo = new WorkRepository();
         var malfunctionRepo = new MalfunctionRepository();
         var masterRepo = new MasterRepository();
+        var orderSparePartRepo = new OrderSparePartRepository();
+        var orderMalfunctionRepo = new OrderMalfunctionRepository();
+        var orderWorkRepo = new OrderWorkRepository();
+
 
         var order = await orderRepo.GetByIdAsync(id);
         if (order == null)
         {
-            _logger.LogWarning($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Order with ID {id} not found.");
-            return RedirectToAction("Index"); // Переадресация на страницу списка заказов, если заказ не найден
+            return RedirectToAction("Index");
         }
 
-        _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Fetching data for order edit.");
+        var model = new OrderViewModel
+        {
+            IdOrder = order.IdOrder,
+            IdMaster = order.IdMaster,
+
+            // Получаем все данные, затем фильтруем по IdOrder
+            SelectedSpareParts = (await orderSparePartRepo.GetAllAsync())
+                .Where(osp => osp.IdOrder == order.IdOrder)
+                .Select(osp => osp.IdSparePart)
+                .ToList(),
+
+            SelectedWorks = (await orderWorkRepo.GetAllAsync())
+                .Where(ow => ow.IdOrder == order.IdOrder)
+                .Select(ow => ow.IdWork)
+                .ToList(),
+
+            SelectedMalfunctions = (await orderMalfunctionRepo.GetAllAsync())
+                .Where(om => om.IdOrder == order.IdOrder)
+                .Select(om => om.IdMalfunction)
+                .ToList(),
+
+            // Заполнение других свойств
+        };
+
+
+
         ViewBag.SpareParts = await sparePartRepo.GetAllAsync();
         ViewBag.Works = await workRepo.GetAllAsync();
         ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
         ViewBag.Masters = await masterRepo.GetAllAsync();
 
-        _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Data fetched successfully.");
-        return View(order);
+        return View(model);
     }
 
     // POST: Order/Edit/5
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, Order order, int[] selectedSpareParts, int[] selectedWorks, int[] selectedMalfunctions)
+    public async Task<IActionResult> Edit(int id, OrderViewModel model)
     {
-        _logger.LogInformation($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Enter Edit POST method for Order ID {id}.");
-
-        var orderRepo = new OrderRepository();
-
-        if (id != order.IdOrder)
-        {
-            _logger.LogWarning($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Order ID mismatch. Provided ID: {id}, Order ID: {order.IdOrder}");
-            return RedirectToAction("Index"); // Переадресация на страницу списка заказов, если ID не совпадают
-        }
-
         if (ModelState.IsValid)
         {
-            _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Model is valid. Updating order in the database.");
+            var orderRepo = new OrderRepository();
+
+            var order = new Order
+            {
+                IdOrder = model.IdOrder,
+                IdMaster = model.IdMaster,
+                // Заполнение других свойств
+            };
+
             await orderRepo.UpdateAsync(order);
+            await orderRepo.UpdateOrderDetails(order.IdOrder, model.SelectedSpareParts, model.SelectedWorks, model.SelectedMalfunctions);
 
-            _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Updating order details.");
-            await orderRepo.UpdateOrderDetails(order.IdOrder, selectedSpareParts.ToList(), selectedWorks.ToList(), selectedMalfunctions.ToList());
-
-            _logger.LogInformation("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Order updated successfully.");
-            return RedirectToAction("Index"); // Переадресация на страницу списка заказов после обновления
+            return RedirectToAction("Index");
         }
 
-        _logger.LogWarning("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Model state is invalid.");
-        return View(order);
+        var sparePartRepo = new SparePartRepository();
+        var workRepo = new WorkRepository();
+        var malfunctionRepo = new MalfunctionRepository();
+        var masterRepo = new MasterRepository();
+
+        ViewBag.SpareParts = await sparePartRepo.GetAllAsync();
+        ViewBag.Works = await workRepo.GetAllAsync();
+        ViewBag.Malfunctions = await malfunctionRepo.GetAllAsync();
+        ViewBag.Masters = await masterRepo.GetAllAsync();
+
+        return View(model);
     }
 
     // GET: Order/Delete/5
