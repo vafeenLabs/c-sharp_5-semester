@@ -9,7 +9,7 @@
     <div class="form-group mb-3">
         <label class="form-label">Select Spare Parts</label>
         <div>
-            @foreach (var sparePart in ViewBag.SpareParts)
+            @foreach (var sparePart in Model.SpareParts)
             {
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="sparePart_@sparePart.IdSparePart"
@@ -25,7 +25,7 @@
     <div class="form-group mb-3">
         <label class="form-label">Select Works</label>
         <div>
-            @foreach (var work in ViewBag.Works)
+            @foreach (var work in Model.Works)
             {
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="work_@work.IdWork" name="SelectedWorks"
@@ -40,7 +40,7 @@
     <div class="form-group mb-3">
         <label class="form-label">Select Malfunctions</label>
         <div>
-            @foreach (var malfunction in ViewBag.Malfunctions)
+            @foreach (var malfunction in Model.Malfunctions)
             {
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="malfunction_@malfunction.IdMalfunction"

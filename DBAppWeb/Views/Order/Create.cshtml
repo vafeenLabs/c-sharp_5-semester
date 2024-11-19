@@ -6,7 +6,7 @@
     <div class="form-group">
         <label for="SelectedSpareParts">Select Spare Parts</label>
         <select name="SelectedSpareParts" multiple="multiple" class="form-control">
-            @foreach (var sparePart in ViewBag.SpareParts)
+            @foreach (var sparePart in Model.SpareParts)
             {
                 <option value="@sparePart.IdSparePart">@sparePart.Name</option>
             }
@@ -16,7 +16,7 @@
     <div class="form-group">
         <label for="SelectedWorks">Select Works</label>
         <select name="SelectedWorks" multiple="multiple" class="form-control">
-            @foreach (var work in ViewBag.Works)
+            @foreach (var work in Model.Works)
             {
                 <option value="@work.IdWork">@work.WorkDescription</option>
             }
@@ -26,7 +26,7 @@
     <div class="form-group">
         <label for="SelectedMalfunctions">Select Malfunctions</label>
         <select name="SelectedMalfunctions" multiple="multiple" class="form-control">
-            @foreach (var malfunction in ViewBag.Malfunctions)
+            @foreach (var malfunction in Model.Malfunctions)
             {
                 <option value="@malfunction.IdMalfunction">@malfunction.Description</option>
             }
@@ -36,7 +36,7 @@
     <div class="form-group">
         <label for="MasterId">Select Master</label>
         <select name="MasterId" multiple="multiple" class="form-control">
-            @foreach (var master in ViewBag.Masters)
+            @foreach (var master in Model.Masters)
             {
                 <option value="@master.IdMaster">@master.Specialization</option>
             }

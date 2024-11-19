@@ -1,8 +1,5 @@
 @model Order
 
-@{
-    ViewData["Title"] = "Delete Order";
-}
 
 <h1>Delete Order</h1>
 
@@ -13,9 +10,7 @@
 </div>
 
 <form method="post">
-    <!-- Кнопка удаления -->
     <button type="submit" class="btn btn-danger me-2">Delete</button>
 
-    <!-- Кнопка отмены -->
     <a class="btn btn-secondary" href="@Url.Action("Index", "Order")" role="button">Cancel</a>
 </form>
