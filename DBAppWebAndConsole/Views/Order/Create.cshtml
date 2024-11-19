@@ -1,0 +1,47 @@
+@model OrderViewModel
+
+<h2>Create Order</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="SelectedSpareParts">Select Spare Parts</label>
+        <select name="SelectedSpareParts" multiple="multiple" class="form-control">
+            @foreach (var sparePart in Model.SpareParts)
+            {
+                <option value="@sparePart.IdSparePart">@sparePart.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="SelectedWorks">Select Works</label>
+        <select name="SelectedWorks" multiple="multiple" class="form-control">
+            @foreach (var work in Model.Works)
+            {
+                <option value="@work.IdWork">@work.WorkDescription</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="SelectedMalfunctions">Select Malfunctions</label>
+        <select name="SelectedMalfunctions" multiple="multiple" class="form-control">
+            @foreach (var malfunction in Model.Malfunctions)
+            {
+                <option value="@malfunction.IdMalfunction">@malfunction.Description</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="MasterId">Select Master</label>
+        <select name="MasterId" multiple="multiple" class="form-control">
+            @foreach (var master in Model.Masters)
+            {
+                <option value="@master.IdMaster">@master.Specialization</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
