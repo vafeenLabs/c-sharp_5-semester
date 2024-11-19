@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "GZDl1RY47dHTGY5eoIKBaZC0lgL/2XwMhuCV2DrbnXU=",
+  "Hash": "iWM8gPhwSVoxblHrHXuieNcxd8xzLcQ/UpFKpO8kJ8Q=",
   "Source": "DBApp",
   "BasePath": "_content/DBApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "DBApp/wwwroot",
+      "Source": "DBApp",
+      "ContentRoot": "/home/a/CODESPACE/LABS/C#-Labs/DBAppWeb/wwwroot/",
+      "BasePath": "_content/DBApp",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

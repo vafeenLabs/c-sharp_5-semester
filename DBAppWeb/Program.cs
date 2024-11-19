@@ -11,8 +11,18 @@ class Program
         // await InitializeDatabase();
 
         // Основная часть программы
-        await MainPart();
+        // await MainPart();
+
+
+        CreateHostBuilder(args).Build().Run();
+
     }
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+              Host.CreateDefaultBuilder(args)
+                  .ConfigureWebHostDefaults(webBuilder =>
+                  {
+                      webBuilder.UseStartup<Startup>();
+                  });
 
     // Основная часть программы
     private static async Task MainPart()

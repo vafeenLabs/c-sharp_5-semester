@@ -211,3 +211,22 @@ public class Work
     public string? WorkDescription { get; set; }
     public decimal Price { get; set; }
 }
+
+
+
+
+public class OrderViewModel
+{
+    public int IdMaster { get; set; }
+    public List<int> SelectedSpareParts { get; set; } = new();
+    public List<int> SelectedWorks { get; set; } = new();
+    public List<int> SelectedMalfunctions { get; set; } = new();
+
+    public override string ToString()
+    {
+        return $"{IdMaster}, " +
+               $"[{string.Join(", ", SelectedSpareParts)}], " +
+               $"[{string.Join(", ", SelectedWorks)}], " +
+               $"[{string.Join(", ", SelectedMalfunctions)}]";
+    }
+}
