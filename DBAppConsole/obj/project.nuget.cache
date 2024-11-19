@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yka+vog6f6n9eoX9BeBVO2Hb2HZHxJ0cza+MlOtqEMQ3VSl0YZc7ehp7SfamuRWGBw7ham/77AX/ZxAc5oLDBQ==",
+  "dgSpecHash": "b4ti2qUKxxREkBGxRJqmJJyU/RrA26F13t1irQsvbpYPDs0p3H82iYP4wamLHSbZ72gF0b4tgSLa1mjt1RbIRQ==",
   "success": true,
-  "projectFilePath": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj",
+  "projectFilePath": "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/DBApp.csproj",
   "expectedPackageFiles": [
     "/home/a/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/home/a/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",

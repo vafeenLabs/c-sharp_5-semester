@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj": {}
+    "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/DBApp.csproj": {}
   },
   "projects": {
-    "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj": {
+    "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/DBApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj",
+        "projectUniqueName": "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/DBApp.csproj",
         "projectName": "DBApp",
-        "projectPath": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj",
+        "projectPath": "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/DBApp.csproj",
         "packagesPath": "/home/a/.nuget/packages/",
-        "outputPath": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/obj/",
+        "outputPath": "/home/a/CODESPACE/LABS/C#-Labs/DBAppConsole/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/a/.nuget/NuGet/NuGet.Config"

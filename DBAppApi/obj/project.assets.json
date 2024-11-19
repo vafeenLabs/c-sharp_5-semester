@@ -4361,11 +4361,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj",
+      "projectUniqueName": "/home/a/CODESPACE/LABS/C#-Labs/DBAppApi/DBApp.csproj",
       "projectName": "DBApp",
-      "projectPath": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/DBApp.csproj",
+      "projectPath": "/home/a/CODESPACE/LABS/C#-Labs/DBAppApi/DBApp.csproj",
       "packagesPath": "/home/a/.nuget/packages/",
-      "outputPath": "/home/a/CODESPACE/LABS/C#-Labs/DBApp/obj/",
+      "outputPath": "/home/a/CODESPACE/LABS/C#-Labs/DBAppApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/a/.nuget/NuGet/NuGet.Config"
