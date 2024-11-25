@@ -22,7 +22,6 @@ class Program
                 webBuilder.UseStartup<Startup>();
             });
 
-    // Основная часть программы
     private static async Task MainPart()
     {
         // Меню
@@ -63,7 +62,6 @@ class Program
         }
     }
 
-    // Инициализация базы данных
     private static async Task InitializeDatabase()
     {
         var sparePartRepo = new SparePartRepository();
@@ -72,7 +70,6 @@ class Program
         var masterRepo = new MasterRepository();
         var personRepo = new PersonRepository();
 
-        // Создаем пользователей (Persons)
         var person1 = new Person { IdPerson = 1, Name = "Артур" };
         var person2 = new Person { IdPerson = 2, Name = "Ярик" };
         var person3 = new Person { IdPerson = 3, Name = "Данил" };
@@ -85,7 +82,6 @@ class Program
         await personRepo.AddAsync(person4);
         await personRepo.AddAsync(person5);
 
-        // Создание мастеров (Masters)
         await masterRepo.AddAsync(
             new Master
             {
@@ -95,7 +91,7 @@ class Program
                 WorkRate = 90,
                 PersonId = 2,
             }
-        ); // Убедитесь, что PersonId соответствует существующему пользователю
+        );
         await masterRepo.AddAsync(
             new Master
             {
@@ -127,12 +123,10 @@ class Program
             }
         );
 
-        // Добавление запасных частей (SpareParts)
         await sparePartRepo.AddAsync(new SparePart { Name = "Зимние колеса", Price = 150 });
         await sparePartRepo.AddAsync(new SparePart { Name = "Всесезонные колеса", Price = 130 });
         await sparePartRepo.AddAsync(new SparePart { Name = "Летние колеса", Price = 120 });
 
-        // Добавление неисправностей (Malfunctions)
         await malfunctionRepo.AddAsync(
             new Malfunction { IdMalfunction = 1, Description = "Полетел движок" }
         );
@@ -143,7 +137,6 @@ class Program
             new Malfunction { IdMalfunction = 3, Description = "Лампочка не горит" }
         );
 
-        // Добавление работ (Works)
         await workRepo.AddAsync(new Work { IdWork = 1, WorkDescription = "Покрасить кузов" });
         await workRepo.AddAsync(new Work { IdWork = 2, WorkDescription = "Заменить колесо" });
         await workRepo.AddAsync(

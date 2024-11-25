@@ -45,7 +45,6 @@ public class OrderController : Controller
         if (await useCase.Post(model))
             return RedirectToAction("Index");
 
-        // Если модель некорректна, перезагружаем данные
         model = await useCase.Get();
         return View(model);
     }
@@ -73,7 +72,6 @@ public class OrderController : Controller
         if (await useCase.Post(id, model))
             return RedirectToAction("Index");
 
-        // Если модель некорректна, перезагружаем данные
         model = await useCase.Get(id);
         return View(model);
     }
@@ -99,6 +97,6 @@ public class OrderController : Controller
         if (await useCase.Post(id))
             return RedirectToAction("Index");
 
-        return RedirectToAction("Index"); // Если удаление не удалось
+        return RedirectToAction("Index"); 
     }
 }
