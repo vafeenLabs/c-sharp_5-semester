@@ -8,5 +8,4 @@ public class Work
     public int IdWork { get; set; }
     public string? WorkDescription { get; set; }
     public decimal Price { get; set; }
-    public ICollection<Order> Orders { get; set; } = [];
 }

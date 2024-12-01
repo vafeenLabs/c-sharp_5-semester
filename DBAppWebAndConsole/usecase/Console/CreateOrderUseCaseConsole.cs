@@ -9,6 +9,9 @@ public class CreateOrderUseCaseConsole
         var masterRepo = new MasterRepository();
         var personRepo = new PersonRepository();
 
+        var orderSparePartRepo = new OrderSparePartRepository();
+        var orderWorkRepo = new OrderWorkRepository();
+        var orderMalfunctionRepo = new OrderMalfunctionRepository();
 
         Console.WriteLine("Создание нового заказа.");
 
@@ -74,13 +77,16 @@ public class CreateOrderUseCaseConsole
         if (!string.IsNullOrWhiteSpace(sparePartsInput))
         {
             var sparePartsIds = sparePartsInput.Split(' ').Select(int.Parse).ToList();
+
             foreach (var sparePartId in sparePartsIds)
             {
                 // Получаем запасную часть по ID
                 var sparePart = await sparePartRepo.GetAsync(sparePartId);
                 if (sparePart != null)
                 {
-                    newOrder.SpareParts.Add(sparePart);
+                    await orderSparePartRepo.AddAsync(
+                        new OrderSparePart { IdOrder = newOrder.IdOrder, IdSparePart = sparePartId }
+                    );
                     Console.WriteLine($"Запасная часть с ID {sparePartId} добавлена к заказу.");
                 }
                 else
@@ -113,7 +119,9 @@ public class CreateOrderUseCaseConsole
                 var work = await workRepo.GetAsync(workId);
                 if (work != null)
                 {
-                   newOrder.Works.Add(work);
+                    await orderWorkRepo.AddAsync(
+                        new OrderWork { IdOrder = newOrder.IdOrder, IdWork = work.IdWork }
+                    );
                     Console.WriteLine($"Работа с ID {workId} добавлена к заказу.");
                 }
                 else
@@ -148,7 +156,13 @@ public class CreateOrderUseCaseConsole
                 var malfunction = await malfunctionRepo.GetAsync(malfunctionId);
                 if (malfunction != null)
                 {
-                    newOrder.Malfunctions.Add(malfunction);
+                    await orderMalfunctionRepo.AddAsync(
+                        new OrderMalfunction
+                        {
+                            IdOrder = newOrder.IdOrder,
+                            IdMalfunction = malfunction.IdMalfunction,
+                        }
+                    );
                     Console.WriteLine($"Неисправность с ID {malfunctionId} добавлена к заказу.");
                 }
                 else

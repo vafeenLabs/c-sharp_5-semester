@@ -7,6 +7,9 @@ public class EditOrderUseCaseWeb
         var workRepo = new WorkRepository();
         var malfunctionRepo = new MalfunctionRepository();
         var masterRepo = new MasterRepository();
+        var orderSparePartRepo = new OrderSparePartRepository();
+        var orderMalfunctionRepo = new OrderMalfunctionRepository();
+        var orderWorkRepo = new OrderWorkRepository();
 
         var order = await orderRepo.GetByIdAsync(id);
         if (order == null) return null;
@@ -15,11 +18,17 @@ public class EditOrderUseCaseWeb
         {
             IdOrder = order.IdOrder,
             IdMaster = order.IdMaster,
-            SelectedSpareParts = order.SpareParts
+            SelectedSpareParts = (await orderSparePartRepo.GetAllAsync())
+                .Where(osp => osp.IdOrder == order.IdOrder)
+                .Select(osp => osp.IdSparePart)
                 .ToList(),
-            SelectedWorks = order.Works
+            SelectedWorks = (await orderWorkRepo.GetAllAsync())
+                .Where(ow => ow.IdOrder == order.IdOrder)
+                .Select(ow => ow.IdWork)
                 .ToList(),
-            SelectedMalfunctions = order.Malfunctions
+            SelectedMalfunctions = (await orderMalfunctionRepo.GetAllAsync())
+                .Where(om => om.IdOrder == order.IdOrder)
+                .Select(om => om.IdMalfunction)
                 .ToList(),
             SpareParts = await sparePartRepo.GetAllAsync(),
             Works = await workRepo.GetAllAsync(),

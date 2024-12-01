@@ -10,7 +10,7 @@ public class Order
     public DateTime OrderDate { get; set; }
     public Master? Master { get; set; }
     public string? Comment { get; set; }
-    public ICollection<SparePart> SpareParts { get; set; } = [];
-    public ICollection<Malfunction> Malfunctions { get; set; } = [];
-    public ICollection<Work> Works { get; set; } = [];
+    public ICollection<OrderSparePart>? OrderSpareParts { get; set; }
+    public ICollection<OrderMalfunction>? OrderMalfunctions { get; set; }
+    public ICollection<OrderWork>? OrderWorks { get; set; }
 }

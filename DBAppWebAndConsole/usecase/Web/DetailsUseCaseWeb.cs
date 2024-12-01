@@ -7,6 +7,10 @@ public class DetailsUseCaseWeb
         var workRepo = new WorkRepository();
         var malfunctionRepo = new MalfunctionRepository();
         var masterRepo = new MasterRepository();
+        var orderSparePartRepo = new OrderSparePartRepository();
+        var orderMalfunctionRepo = new OrderMalfunctionRepository();
+        var orderWorkRepo = new OrderWorkRepository();
+
         var order = await orderRepo.GetByIdAsync(id);
 
         var model = new OrderViewModel
@@ -14,10 +18,20 @@ public class DetailsUseCaseWeb
             IdOrder = order.IdOrder,
             IdMaster = order.IdMaster,
 
-            SelectedSpareParts = order.SpareParts.ToList(),
+            SelectedSpareParts = (await orderSparePartRepo.GetAllAsync())
+                .Where(osp => osp.IdOrder == order.IdOrder)
+                .Select(osp => osp.IdSparePart)
+                .ToList(),
 
-            SelectedWorks = order.Works.ToList(),
-            SelectedMalfunctions = order.Malfunctions.ToList(),
+            SelectedWorks = (await orderWorkRepo.GetAllAsync())
+                .Where(ow => ow.IdOrder == order.IdOrder)
+                .Select(ow => ow.IdWork)
+                .ToList(),
+
+            SelectedMalfunctions = (await orderMalfunctionRepo.GetAllAsync())
+                .Where(om => om.IdOrder == order.IdOrder)
+                .Select(om => om.IdMalfunction)
+                .ToList(),
 
             SpareParts = await sparePartRepo.GetAllAsync(),
             Works = await workRepo.GetAllAsync(),

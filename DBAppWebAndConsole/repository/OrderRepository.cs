@@ -10,56 +10,119 @@ public class OrderRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task AddOrderDetails(int idOrder, int sparePartCode, int workId, int idMalfunction)
+    {
+        var order = await _context.Orders.FindAsync(idOrder);
+        if (order != null)
+        {
+ 
+            if (sparePartCode != 0)
+            {
+                var sparePart = await _context.SpareParts.FindAsync(sparePartCode);
+                if (sparePart != null)
+                {
+                    _context.OrderSpareParts.Add(
+                        new OrderSparePart { IdOrder = idOrder, IdSparePart = sparePartCode }
+                    );
+                }
+            }
 
-public async Task<List<Order>> GetAllAsync()
-{
-    return await _context
-        .Orders
-        .Include(o => o.Master) // Подгружаем Master, если нужно
-        .Include(o => o.SpareParts)
-        .Include(o => o.Malfunctions)
-        .Include(o => o.Works)
-        .ToListAsync();
-}
+            if (workId != 0)
+            {
+                var work = await _context.Works.FindAsync(workId);
+                if (work != null)
+                {
+                    _context.OrderWorks.Add(new OrderWork { IdOrder = idOrder, IdWork = workId });
+                }
+            }
 
-public async Task<Order?> GetByIdAsync(int idOrder)
-{
-    return await _context
-        .Orders
-        .Include(o => o.Master) // Подгружаем Master, если нужно
-        .Include(o => o.SpareParts)
-        .Include(o => o.Malfunctions)
-        .Include(o => o.Works)
-        .FirstOrDefaultAsync(o => o.IdOrder == idOrder);
-}
+            if (idMalfunction != 0)
+            {
+                var malfunction = await _context.Malfunctions.FindAsync(idMalfunction);
+                if (malfunction != null)
+                {
+                    _context.OrderMalfunctions.Add(
+                        new OrderMalfunction { IdOrder = idOrder, IdMalfunction = idMalfunction }
+                    );
+                }
+            }
 
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task<List<Order>> GetAllAsync()
+    {
+        return await _context
+            .Orders.Include(o => o.OrderSpareParts)
+            .ThenInclude(osp => osp.SparePart)
+            .Include(o => o.OrderWorks)
+            .ThenInclude(ow => ow.Work)
+            .Include(o => o.OrderMalfunctions)
+            .ThenInclude(om => om.Malfunction)
+            .ToListAsync();
+    }
+
+    public async Task<Order> GetByIdAsync(int idOrder)
+    {
+        return await _context
+            .Orders.Include(o => o.OrderSpareParts)
+            .ThenInclude(osp => osp.SparePart)
+            .Include(o => o.OrderWorks)
+            .ThenInclude(ow => ow.Work)
+            .Include(o => o.OrderMalfunctions)
+            .ThenInclude(om => om.Malfunction)
+            .FirstOrDefaultAsync(o => o.IdOrder == idOrder);
+    }
     public async Task UpdateOrderDetails(
         int idOrder,
-        List<SparePart> newSpareParts,
-        List<Work> newWorks,
-        List<Malfunction> newMalfunctions
+        List<int> newSpareParts,
+        List<int> newWorks,
+        List<int> newMalfunctions
     )
     {
-        var order = await GetByIdAsync(idOrder);
+        var order = await _context.Orders.FindAsync(idOrder);
         if (order != null)
         {
             
-            await DeleteOrderDetails(idOrder);
-           
-            foreach (var sparePart in newSpareParts)
+            var currentSpareParts = _context.OrderSpareParts.Where(osp => osp.IdOrder == idOrder);
+            _context.OrderSpareParts.RemoveRange(currentSpareParts);
+
+            var currentWorks = _context.OrderWorks.Where(ow => ow.IdOrder == idOrder);
+            _context.OrderWorks.RemoveRange(currentWorks);
+
+            var currentMalfunctions = _context.OrderMalfunctions.Where(om => om.IdOrder == idOrder);
+            _context.OrderMalfunctions.RemoveRange(currentMalfunctions);
+
+            foreach (var sparePartCode in newSpareParts)
             {
-             order.SpareParts.Add(sparePart);    
+                var sparePart = await _context.SpareParts.FindAsync(sparePartCode);
+                if (sparePart != null)
+                {
+                    _context.OrderSpareParts.Add(
+                        new OrderSparePart { IdOrder = idOrder, IdSparePart = sparePartCode }
+                    );
+                }
             }
 
-            foreach (var work in newWorks)
+            foreach (var workId in newWorks)
             {
-                   order.Works.Add(work);
-                
+                var work = await _context.Works.FindAsync(workId);
+                if (work != null)
+                {
+                    _context.OrderWorks.Add(new OrderWork { IdOrder = idOrder, IdWork = workId });
+                }
             }
 
-            foreach (var malfunction in newMalfunctions)
+            foreach (var malfunctionId in newMalfunctions)
             {
-                   order.Malfunctions.Add(malfunction);   
+                var malfunction = await _context.Malfunctions.FindAsync(malfunctionId);
+                if (malfunction != null)
+                {
+                    _context.OrderMalfunctions.Add(
+                        new OrderMalfunction { IdOrder = idOrder, IdMalfunction = malfunctionId }
+                    );
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -84,9 +147,16 @@ public async Task<Order?> GetByIdAsync(int idOrder)
         var order = await _context.Orders.FindAsync(idOrder);
         if (order != null)
         {
-            order.SpareParts.Clear();
-            order.Works.Clear();
-            order.Malfunctions.Clear();
+            var currentSpareParts = _context.OrderSpareParts.Where(osp => osp.IdOrder == idOrder);
+            _context.OrderSpareParts.RemoveRange(currentSpareParts);
+
+            var currentWorks = _context.OrderWorks.Where(ow => ow.IdOrder == idOrder);
+            _context.OrderWorks.RemoveRange(currentWorks);
+
+            var currentMalfunctions = _context.OrderMalfunctions.Where(om => om.IdOrder == idOrder);
+            _context.OrderMalfunctions.RemoveRange(currentMalfunctions);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -30,9 +30,9 @@ public class CreateOrderUseCaseWeb
         await orderRepo.AddAsync(order);
         await orderRepo.UpdateOrderDetails(
             order.IdOrder,
-            model.SelectedSpareParts.ToList(),
-            model.SelectedWorks.ToList(),
-            model.SelectedMalfunctions.ToList()
+            model.SelectedSpareParts,
+            model.SelectedWorks,
+            model.SelectedMalfunctions
         );
 
         return true;
