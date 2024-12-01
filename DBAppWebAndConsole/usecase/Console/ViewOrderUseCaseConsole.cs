@@ -41,22 +41,22 @@ public class ViewOrderUseCaseConsole
             Console.WriteLine($"Комментарий: {orderToView.Comment}");
 
             Console.WriteLine("Запасные части:");
-            foreach (var osp in orderToView.OrderSpareParts)
+            foreach (var sparePart in orderToView.SpareParts)
             {
-                Console.WriteLine($" - {osp.SparePart.Name} (ID: {osp.SparePart.IdSparePart})");
+                Console.WriteLine($" - {sparePart.Name} (ID: {sparePart.IdSparePart})");
             }
 
             Console.WriteLine("Работы:");
-            foreach (var ow in orderToView.OrderWorks)
+            foreach (var work in orderToView.Works)
             {
-                Console.WriteLine($" - {ow.Work.WorkDescription} (ID: {ow.Work.IdWork})");
+                Console.WriteLine($" - {work.WorkDescription} (ID: {work.IdWork})");
             }
 
             Console.WriteLine("Неисправности:");
-            foreach (var om in orderToView.OrderMalfunctions)
+            foreach (var malfunction in orderToView.Malfunctions)
             {
                 Console.WriteLine(
-                    $" - {om.Malfunction.Description} (ID: {om.Malfunction.IdMalfunction})"
+                    $" - {malfunction.Description} (ID: {malfunction.IdMalfunction})"
                 );
             }
         }

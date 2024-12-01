@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DBApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120064223_InitialCreate")]
+    [Migration("20241201103558_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -78,6 +78,21 @@ namespace DBApp.Migrations
                     b.HasKey("IdMalfunction");
 
                     b.ToTable("Malfunctions");
+                });
+
+            modelBuilder.Entity("MalfunctionOrder", b =>
+                {
+                    b.Property<int>("MalfunctionsIdMalfunction")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrdersIdOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MalfunctionsIdMalfunction", "OrdersIdOrder");
+
+                    b.HasIndex("OrdersIdOrder");
+
+                    b.ToTable("MalfunctionOrder");
                 });
 
             modelBuilder.Entity("Manager", b =>
@@ -187,49 +202,34 @@ namespace DBApp.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OrderMalfunction", b =>
-                {
-                    b.Property<int>("IdOrder")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IdMalfunction")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("IdOrder", "IdMalfunction");
-
-                    b.HasIndex("IdMalfunction");
-
-                    b.ToTable("OrderMalfunctions");
-                });
-
             modelBuilder.Entity("OrderSparePart", b =>
                 {
-                    b.Property<int>("IdOrder")
+                    b.Property<int>("OrdersIdOrder")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("IdSparePart")
+                    b.Property<int>("SparePartsIdSparePart")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("IdOrder", "IdSparePart");
+                    b.HasKey("OrdersIdOrder", "SparePartsIdSparePart");
 
-                    b.HasIndex("IdSparePart");
+                    b.HasIndex("SparePartsIdSparePart");
 
-                    b.ToTable("OrderSpareParts");
+                    b.ToTable("OrderSparePart");
                 });
 
             modelBuilder.Entity("OrderWork", b =>
                 {
-                    b.Property<int>("IdOrder")
+                    b.Property<int>("OrdersIdOrder")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("IdWork")
+                    b.Property<int>("WorksIdWork")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("IdOrder", "IdWork");
+                    b.HasKey("OrdersIdOrder", "WorksIdWork");
 
-                    b.HasIndex("IdWork");
+                    b.HasIndex("WorksIdWork");
 
-                    b.ToTable("OrderWorks");
+                    b.ToTable("OrderWork");
                 });
 
             modelBuilder.Entity("Person", b =>
@@ -342,6 +342,21 @@ namespace DBApp.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("MalfunctionOrder", b =>
+                {
+                    b.HasOne("Malfunction", null)
+                        .WithMany()
+                        .HasForeignKey("MalfunctionsIdMalfunction")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersIdOrder")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Master", b =>
                 {
                     b.HasOne("Person", "Person")
@@ -362,70 +377,34 @@ namespace DBApp.Migrations
                     b.Navigation("Master");
                 });
 
-            modelBuilder.Entity("OrderMalfunction", b =>
-                {
-                    b.HasOne("Malfunction", "Malfunction")
-                        .WithMany()
-                        .HasForeignKey("IdMalfunction")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Order", "Order")
-                        .WithMany("OrderMalfunctions")
-                        .HasForeignKey("IdOrder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Malfunction");
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("OrderSparePart", b =>
                 {
-                    b.HasOne("Order", "Order")
-                        .WithMany("OrderSpareParts")
-                        .HasForeignKey("IdOrder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SparePart", "SparePart")
+                    b.HasOne("Order", null)
                         .WithMany()
-                        .HasForeignKey("IdSparePart")
+                        .HasForeignKey("OrdersIdOrder")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
-
-                    b.Navigation("SparePart");
+                    b.HasOne("SparePart", null)
+                        .WithMany()
+                        .HasForeignKey("SparePartsIdSparePart")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OrderWork", b =>
                 {
-                    b.HasOne("Order", "Order")
-                        .WithMany("OrderWorks")
-                        .HasForeignKey("IdOrder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Work", "Work")
+                    b.HasOne("Order", null)
                         .WithMany()
-                        .HasForeignKey("IdWork")
+                        .HasForeignKey("OrdersIdOrder")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
-
-                    b.Navigation("Work");
-                });
-
-            modelBuilder.Entity("Order", b =>
-                {
-                    b.Navigation("OrderMalfunctions");
-
-                    b.Navigation("OrderSpareParts");
-
-                    b.Navigation("OrderWorks");
+                    b.HasOne("Work", null)
+                        .WithMany()
+                        .HasForeignKey("WorksIdWork")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

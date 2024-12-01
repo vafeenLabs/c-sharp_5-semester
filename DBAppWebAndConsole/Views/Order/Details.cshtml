@@ -20,7 +20,7 @@
             var spareParts = Model.SpareParts as List<SparePart>;
             if (spareParts != null && Model.SelectedSpareParts != null && Model.SelectedSpareParts.Any())
             {
-                foreach (var sparePart in spareParts.Where(sp => Model.SelectedSpareParts.Contains(sp.IdSparePart)))
+                foreach (var sparePart in spareParts.Where(sp => Model.SelectedSpareParts.Contains(sp)))
                 {
                     <li>@{@sparePart.Name}</li>
                 }
@@ -40,7 +40,7 @@
             var works = Model.Works as List<Work>;
             if (works != null && Model.SelectedWorks != null && Model.SelectedWorks.Any())
             {
-                foreach (var work in works.Where(w => Model.SelectedWorks.Contains(w.IdWork)))
+                foreach (var work in works.Where(w => Model.SelectedWorks.Contains(w)))
                 {
                     <li>@work.WorkDescription</li>
                 }
@@ -60,7 +60,7 @@
             var malfunctions = Model.Malfunctions as List<Malfunction>;
             if (malfunctions != null && Model.SelectedMalfunctions != null && Model.SelectedMalfunctions.Any())
             {
-                foreach (var malfunction in malfunctions.Where(m => Model.SelectedMalfunctions.Contains(m.IdMalfunction)))
+                foreach (var malfunction in malfunctions.Where(m => Model.SelectedMalfunctions.Contains(m)))
                 {
                     <li>@malfunction.Description</li>
                 }

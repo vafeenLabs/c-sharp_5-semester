@@ -222,72 +222,72 @@ namespace DBApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderMalfunctions",
+                name: "MalfunctionOrder",
                 columns: table => new
                 {
-                    IdOrder = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdMalfunction = table.Column<int>(type: "INTEGER", nullable: false)
+                    MalfunctionsIdMalfunction = table.Column<int>(type: "INTEGER", nullable: false),
+                    OrdersIdOrder = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderMalfunctions", x => new { x.IdOrder, x.IdMalfunction });
+                    table.PrimaryKey("PK_MalfunctionOrder", x => new { x.MalfunctionsIdMalfunction, x.OrdersIdOrder });
                     table.ForeignKey(
-                        name: "FK_OrderMalfunctions_Malfunctions_IdMalfunction",
-                        column: x => x.IdMalfunction,
+                        name: "FK_MalfunctionOrder_Malfunctions_MalfunctionsIdMalfunction",
+                        column: x => x.MalfunctionsIdMalfunction,
                         principalTable: "Malfunctions",
                         principalColumn: "IdMalfunction",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderMalfunctions_Orders_IdOrder",
-                        column: x => x.IdOrder,
+                        name: "FK_MalfunctionOrder_Orders_OrdersIdOrder",
+                        column: x => x.OrdersIdOrder,
                         principalTable: "Orders",
                         principalColumn: "IdOrder",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderSpareParts",
+                name: "OrderSparePart",
                 columns: table => new
                 {
-                    IdOrder = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdSparePart = table.Column<int>(type: "INTEGER", nullable: false)
+                    OrdersIdOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    SparePartsIdSparePart = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderSpareParts", x => new { x.IdOrder, x.IdSparePart });
+                    table.PrimaryKey("PK_OrderSparePart", x => new { x.OrdersIdOrder, x.SparePartsIdSparePart });
                     table.ForeignKey(
-                        name: "FK_OrderSpareParts_Orders_IdOrder",
-                        column: x => x.IdOrder,
+                        name: "FK_OrderSparePart_Orders_OrdersIdOrder",
+                        column: x => x.OrdersIdOrder,
                         principalTable: "Orders",
                         principalColumn: "IdOrder",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderSpareParts_SpareParts_IdSparePart",
-                        column: x => x.IdSparePart,
+                        name: "FK_OrderSparePart_SpareParts_SparePartsIdSparePart",
+                        column: x => x.SparePartsIdSparePart,
                         principalTable: "SpareParts",
                         principalColumn: "IdSparePart",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderWorks",
+                name: "OrderWork",
                 columns: table => new
                 {
-                    IdOrder = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdWork = table.Column<int>(type: "INTEGER", nullable: false)
+                    OrdersIdOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    WorksIdWork = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderWorks", x => new { x.IdOrder, x.IdWork });
+                    table.PrimaryKey("PK_OrderWork", x => new { x.OrdersIdOrder, x.WorksIdWork });
                     table.ForeignKey(
-                        name: "FK_OrderWorks_Orders_IdOrder",
-                        column: x => x.IdOrder,
+                        name: "FK_OrderWork_Orders_OrdersIdOrder",
+                        column: x => x.OrdersIdOrder,
                         principalTable: "Orders",
                         principalColumn: "IdOrder",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderWorks_Works_IdWork",
-                        column: x => x.IdWork,
+                        name: "FK_OrderWork_Works_WorksIdWork",
+                        column: x => x.WorksIdWork,
                         principalTable: "Works",
                         principalColumn: "IdWork",
                         onDelete: ReferentialAction.Cascade);
@@ -314,14 +314,14 @@ namespace DBApp.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MalfunctionOrder_OrdersIdOrder",
+                table: "MalfunctionOrder",
+                column: "OrdersIdOrder");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Masters_PersonId",
                 table: "Masters",
                 column: "PersonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderMalfunctions_IdMalfunction",
-                table: "OrderMalfunctions",
-                column: "IdMalfunction");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_MasterIdMaster",
@@ -329,14 +329,14 @@ namespace DBApp.Migrations
                 column: "MasterIdMaster");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderSpareParts_IdSparePart",
-                table: "OrderSpareParts",
-                column: "IdSparePart");
+                name: "IX_OrderSparePart_SparePartsIdSparePart",
+                table: "OrderSparePart",
+                column: "SparePartsIdSparePart");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderWorks_IdWork",
-                table: "OrderWorks",
-                column: "IdWork");
+                name: "IX_OrderWork_WorksIdWork",
+                table: "OrderWork",
+                column: "WorksIdWork");
         }
 
         /// <inheritdoc />
@@ -346,16 +346,16 @@ namespace DBApp.Migrations
                 name: "Cars");
 
             migrationBuilder.DropTable(
+                name: "MalfunctionOrder");
+
+            migrationBuilder.DropTable(
                 name: "Managers");
 
             migrationBuilder.DropTable(
-                name: "OrderMalfunctions");
+                name: "OrderSparePart");
 
             migrationBuilder.DropTable(
-                name: "OrderSpareParts");
-
-            migrationBuilder.DropTable(
-                name: "OrderWorks");
+                name: "OrderWork");
 
             migrationBuilder.DropTable(
                 name: "Providers");

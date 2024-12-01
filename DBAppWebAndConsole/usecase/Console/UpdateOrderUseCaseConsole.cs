@@ -50,9 +50,9 @@ public class UpdateOrderUseCaseConsole
 
             // Обновление запасных частей
             Console.WriteLine("Текущие запасные части в заказе:");
-            foreach (var osp in orderToUpdate.OrderSpareParts)
+            foreach (var sparePart in orderToUpdate.SpareParts)
             {
-                Console.WriteLine($" - {osp.SparePart.Name} (ID: {osp.SparePart.IdSparePart})");
+                Console.WriteLine($" - {sparePart.Name} (ID: {sparePart.IdSparePart})");
             }
 
             // Вывод списка всех доступных запасных частей
@@ -64,13 +64,18 @@ public class UpdateOrderUseCaseConsole
             }
 
             Console.WriteLine("Введите новые ID запасных частей через пробел:");
-            var newSpareParts = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newSparePartsId = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newSpareParts = new List<SparePart>();
+            foreach (var sparePartId in newSparePartsId)
+            {
+                newSpareParts.Add(await sparePartRepo.GetAsync(sparePartId));
+            }
 
             // Обновление работ
             Console.WriteLine("Текущие работы в заказе:");
-            foreach (var ow in orderToUpdate.OrderWorks)
+            foreach (var work in orderToUpdate.Works)
             {
-                Console.WriteLine($" - {ow.Work.WorkDescription} (ID: {ow.Work.IdWork})");
+                Console.WriteLine($" - {work.WorkDescription} (ID: {work.IdWork})");
             }
 
             // Вывод списка всех доступных работ
@@ -82,15 +87,18 @@ public class UpdateOrderUseCaseConsole
             }
 
             Console.WriteLine("Введите новые ID работ через пробел:");
-            var newWorks = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newWorksId = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newWorks = new List<Work>();
+            foreach (var workId in newWorksId)
+            {
+                newWorks.Add(await workRepo.GetAsync(workId));
+            }
 
             // Обновление неисправностей
             Console.WriteLine("Текущие неисправности в заказе:");
-            foreach (var om in orderToUpdate.OrderMalfunctions)
+            foreach (var om in orderToUpdate.Malfunctions)
             {
-                Console.WriteLine(
-                    $" - {om.Malfunction.Description} (ID: {om.Malfunction.IdMalfunction})"
-                );
+                Console.WriteLine($" - {om.Description} (ID: {om.IdMalfunction})");
             }
 
             // Вывод списка всех доступных неисправностей
@@ -98,13 +106,16 @@ public class UpdateOrderUseCaseConsole
             Console.WriteLine("Доступные неисправности:");
             foreach (var malfunction in malfunctions)
             {
-                Console.WriteLine(
-                    $"ID: {malfunction.IdMalfunction}, Описание: {malfunction.Description}"
-                );
+                Console.WriteLine($"ID: {malfunction.IdMalfunction}, Описание: {malfunction.Description}");
             }
 
             Console.WriteLine("Введите новые ID неисправностей через пробел:");
-            var newMalfunctions = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newMalfunctionsId = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var newMalfunctions = new List<Malfunction>();
+            foreach (var malfunctionId in newMalfunctionsId)
+            {
+                newMalfunctions.Add(await malfunctionRepo.GetAsync(malfunctionId));
+            }
 
             // Обновляем детали заказа
             await orderRepo.UpdateOrderDetails(
