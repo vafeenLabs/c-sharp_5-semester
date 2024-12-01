@@ -1,68 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+@model OrderViewModel
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создание заказа</title>
-    <style>
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+<h2>Create Order</h2>
 
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Создание нового заказа</h1>
-    <form method="post" asp-action="Create">
-        <label for="master">Мастер:</label>
-        <select id="master" name="IdMaster" required>
-            @foreach (var master in Model.Masters)
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="SelectedSpareParts">Select Spare Parts</label>
+        <select name="SelectedSpareParts" multiple="multiple" class="form-control">
+            @foreach (var sparePart in Model.SpareParts)
             {
-                <option value="@master.IdMaster">@master.Person.Name</option>
+                <option value="@sparePart.IdSparePart">@sparePart.Name</option>
             }
         </select>
-        <br />
+    </div>
 
-        <label for="spareParts">Запчасти:</label>
-        <select id="spareParts" name="SelectedSpareParts" multiple>
-            @foreach (var part in Model.SpareParts)
-            {
-                <option value="@part.IdSparePart">@part.Name</option>
-            }
-        </select>
-        <br />
-
-        <label for="works">Работы:</label>
-        <select id="works" name="SelectedWorks" multiple>
+    <div class="form-group">
+        <label for="SelectedWorks">Select Works</label>
+        <select name="SelectedWorks" multiple="multiple" class="form-control">
             @foreach (var work in Model.Works)
             {
                 <option value="@work.IdWork">@work.WorkDescription</option>
             }
         </select>
-        <br />
+    </div>
 
-        <label for="malfunctions">Неисправности:</label>
-        <select id="malfunctions" name="SelectedMalfunctions" multiple>
+    <div class="form-group">
+        <label for="SelectedMalfunctions">Select Malfunctions</label>
+        <select name="SelectedMalfunctions" multiple="multiple" class="form-control">
             @foreach (var malfunction in Model.Malfunctions)
             {
                 <option value="@malfunction.IdMalfunction">@malfunction.Description</option>
             }
         </select>
-        <br />
+    </div>
 
-        <button type="submit">Создать</button>
-    </form>
-</body>
+    <div class="form-group">
+        <label for="MasterId">Select Master</label>
+        <select name="MasterId" multiple="multiple" class="form-control">
+            @foreach (var master in Model.Masters)
+            {
+                <option value="@master.IdMaster">@master.Specialization</option>
+            }
+        </select>
+    </div>
 
-</html>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
