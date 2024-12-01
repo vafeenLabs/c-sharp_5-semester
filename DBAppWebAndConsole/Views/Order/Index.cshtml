@@ -10,7 +10,10 @@
 <body>
     <h1>Список заказов</h1>
 
-    <a href="@Url.Action("Create", "Orders")">Создать новый заказ</a>
+    <!-- Кнопка для перехода на страницу создания нового заказа -->
+    <form action="@Url.Action("Create", "Orders")" method="get">
+        <button type="submit">Создать новый заказ</button>
+    </form>
     <br /><br />
 
     <table>
