@@ -8,7 +8,7 @@ class Program
     static async Task Main(string[] args)
     {
         // for console version
-        await InitializeDatabase();
+        // await InitializeDatabase();
         // await MainPart();
 
         // for web version

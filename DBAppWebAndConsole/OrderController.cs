@@ -27,6 +27,7 @@ public class OrderController : Controller
 
         return View(model);
     }
+
     // Create
     [HttpGet]
     public async Task<IActionResult> Create()
@@ -41,15 +42,13 @@ public class OrderController : Controller
     public async Task<IActionResult> Create(OrderViewModel model)
     {
         var useCase = new CreateOrderUseCaseWeb();
-
+        Console.WriteLine(model.ToString());
         if (await useCase.Post(model))
             return RedirectToAction("Index");
 
         model = await useCase.Get();
         return View(model);
     }
-
-   
 
     // Update
     [HttpGet]
@@ -97,6 +96,6 @@ public class OrderController : Controller
         if (await useCase.Post(id))
             return RedirectToAction("Index");
 
-        return RedirectToAction("Index"); 
+        return RedirectToAction("Index");
     }
 }

@@ -7,7 +7,7 @@
     <p>
         @{
             var masters = Model.Masters as List<Master>;
-            var selectedMaster = masters?.FirstOrDefault(m => m.IdMaster == Model.IdMaster+1)?.Specialization ?? "Not selected";
+            var selectedMaster = masters?.FirstOrDefault(m => m.IdMaster == Model.IdMaster)?.Specialization ?? "Not selected";
         }
         @selectedMaster
     </p>
